@@ -54,7 +54,7 @@ public class Exercise1Test extends PetDomainForKata
     public void getPeopleWithCats()
     {
         // Replace null, with a positive filtering method on MutableList.
-        MutableList<Person> peopleWithCats = this.people.select(p -> p.hasPet(PetType.CAT));
+        MutableList<Person> peopleWithCats = this.people.select(Person::hasCat);
 
         Verify.assertSize(2, peopleWithCats);
     }
@@ -63,7 +63,7 @@ public class Exercise1Test extends PetDomainForKata
     public void getPeopleWithoutCats()
     {
         // Replace null, with a negative filtering method on MutableList.
-        MutableList<Person> peopleWithoutCats = this.people.select(p -> !p.hasPet(PetType.CAT));
+        MutableList<Person> peopleWithoutCats = this.people.select(Person::doesntHaveCat);
 
         Verify.assertSize(6, peopleWithoutCats);
     }

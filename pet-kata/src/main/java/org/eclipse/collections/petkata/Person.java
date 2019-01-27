@@ -73,4 +73,12 @@ public class Person
     {
         return this.pets.size();
     }
+
+    public boolean hasCat() {
+        return this.hasPet(PetType.CAT);
+    }
+
+    public boolean doesntHaveCat() {
+        return !this.hasPet(PetType.CAT);
+    }
 }
