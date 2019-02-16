@@ -28,7 +28,8 @@ public class Exercise5Test extends PetDomainForKata
     @Test
     public void partitionPetAndNonPetPeople()
     {
-        PartitionMutableList<Person> partitionMutableList = null;
+        PartitionMutableList<Person> partitionMutableList = this.people
+                .partition(p -> !p.getPets().isEmpty());
         Verify.assertSize(7, partitionMutableList.getSelected());
         Verify.assertSize(1, partitionMutableList.getRejected());
     }
@@ -36,7 +37,9 @@ public class Exercise5Test extends PetDomainForKata
     @Test
     public void getOldestPet()
     {
-        Pet oldestPet = null;
+        Pet oldestPet = this.people
+                .flatCollect(Person::getPets)
+                .max((p1, p2) -> p1.getAge() - p2.getAge());
         Assert.assertEquals(PetType.DOG, oldestPet.getType());
         Assert.assertEquals(4, oldestPet.getAge());
     }
@@ -44,7 +47,10 @@ public class Exercise5Test extends PetDomainForKata
     @Test
     public void getAveragePetAge()
     {
-        double averagePetAge = 0;
+        double averagePetAge = this.people
+                .flatCollect(Person::getPets)
+                .collectInt(Pet::getAge)
+                .average();
         Assert.assertEquals(1.8888888888888888, averagePetAge, 0.00001);
     }
 
@@ -53,6 +59,9 @@ public class Exercise5Test extends PetDomainForKata
     {
         // Hint: Use petAges as a target collection
         MutableIntSet petAges = IntSets.mutable.with(5);
+                this.people
+                .flatCollect(Person::getPets)
+                .collectInt(Pet::getAge, petAges);
         Assert.assertEquals(IntSets.mutable.with(1, 2, 3, 4, 5), petAges);
     }
 
